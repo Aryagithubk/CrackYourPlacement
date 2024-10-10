@@ -26,7 +26,7 @@ public:
 
         head = root;
         k = k%l;
-        int sz = l-k;
+        // int sz = l-k;
 
         for(int i=0; i<k; i++){
             ListNode* temp = head;
