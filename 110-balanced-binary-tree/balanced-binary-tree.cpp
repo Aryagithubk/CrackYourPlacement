@@ -12,6 +12,8 @@
 class Solution {
 public:
 
+    bool bal = true;
+
     int maxHeight(TreeNode* root){
         if(root == NULL){
             return 0;
@@ -20,6 +22,11 @@ public:
         int l = maxHeight(root->left);
         int r = maxHeight(root->right);
 
+        if(abs(l-r) > 1){
+            bal = false;
+            return -1;
+        }
+
         return 1 + max(l,r);
     }
     bool isBalanced(TreeNode* root) {
@@ -27,17 +34,10 @@ public:
             return true;
         }
 
-        int l = maxHeight(root->left);
-        int r = maxHeight(root->right);
+        maxHeight(root);
 
-        if(abs(l-r) > 1){
-            return false;
-        }
+        return bal;
 
-        bool le = isBalanced(root->left);
-        bool ri = isBalanced(root->right);
-
-        return le and ri;
 
     }
 };
