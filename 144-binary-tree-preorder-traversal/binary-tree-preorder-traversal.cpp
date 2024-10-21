@@ -23,15 +23,15 @@ public:
         st.push(root);
 
         while(!st.empty()){
-            root = st.top();
+            TreeNode* tp = st.top();
             st.pop();
 
-            v.push_back(root->val);
-            if(root->right != NULL){
-                st.push(root->right);
+            v.push_back(tp->val);
+            if(tp->right != NULL){
+                st.push(tp->right);
             }
-            if(root->left != NULL){
-                st.push(root->left);
+            if(tp->left != NULL){
+                st.push(tp->left);
             }
 
         }
