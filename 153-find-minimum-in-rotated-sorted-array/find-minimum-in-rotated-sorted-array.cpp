@@ -22,11 +22,11 @@ public:
 
             if(mid > 0 && nums[mid] < nums[mid-1]){
                 return nums[mid];
-            }
+            }//current element chota h pichle wale se means curr element is min element
 
             if(mid < n-1 && nums[mid] > nums[mid+1]){
                 return nums[mid+1];
-            }
+            }//curr element bda h next wale se means next element is min element
 
             if(nums[mid] > nums[0]){
                 low = mid+1;
