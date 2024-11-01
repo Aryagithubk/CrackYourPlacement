@@ -1,39 +1,27 @@
 class Solution {
 public:
-    int singleNonDuplicate(vector<int>& arr) {
-        // int ans = 0;
-        // for(int i=0; i<nums.size(); i++){
-        //     ans = ans^nums[i];
-        // }
-        // return ans;
-        int n = arr.size();
+    int singleNonDuplicate(vector<int>& nums) {
+        int n = nums.size();
+        int ans = -1;
 
+        if(n == 0){
+            return 0;
+        }
         if(n == 1){
-            return arr[0];
+            return nums[0];
         }
-        if(arr[0] != arr[1]){
-            return arr[0];
+
+        if(nums[n-1] != nums[n-2]){
+            return nums[n-1];
         }
-        if(arr[n-1] != arr[n-2]){
-            return arr[n-1];
-        }
-        int s = 1,e = n-2;
 
-
-        while(s <= e){
-            int m = s + (e-s)/2;
-
-            if(arr[m] != arr[m-1] and arr[m] != arr[m+1]){
-                return arr[m];
-            }
-
-            if(m%2 == 1 and arr[m] == arr[m-1] || m%2 == 0 and arr[m] == arr[m+1]){
-                s = m+1;
-            }else{
-                e = m-1;
+        for(int i=0; i<n-1; i+=2){
+            if(nums[i] != nums[i+1]){
+                ans = nums[i];
+                break;
             }
         }
 
-        return -1;
+        return ans;
     }
 };
