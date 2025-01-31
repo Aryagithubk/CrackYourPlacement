@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-        unordered_map<TreeNode*,int>dp;
+        unordered_map<TreeNode*,int>dp;//we are defining globally because dp table will not recreate.
     int rob(TreeNode* root) {
         if(!root){//when no node is present
             return 0;
