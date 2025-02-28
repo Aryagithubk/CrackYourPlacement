@@ -10,66 +10,43 @@
  */
 class Solution {
 public:
-
-    ListNode* reverseNode(ListNode* head){
-        if(head == NULL || head->next == NULL){
-            return head;
-        }
-        ListNode* prev = NULL;
-        ListNode* curr = head;
-        ListNode* nextNode = curr->next;
-
-        while(curr != NULL){
-            curr->next = prev;
-            prev = curr;
-            curr = nextNode;
-
-            if(curr != NULL){
-                nextNode = curr->next;
-            }
-        }
-
-        return prev;
-    }
-
     bool isPalindrome(ListNode* head) {
         if(head == NULL || head->next == NULL){
             return true;
         }
-        ListNode* root = head;
-        ListNode* head1 = new ListNode();
-        ListNode* root1 = head1;
 
-        while(head != NULL){
-            ListNode* temp = new ListNode(head->val);
-            head1->next = temp;
-            head1 = head1->next;
-            head = head->next;
+        // ListNode* temp = head;
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast != NULL and fast->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
         }
 
-        head1 = root1->next;
-        head = root;
-        ListNode* temp = reverseNode(head1);
+        ListNode* newnode = slow;
+        ListNode* prev = NULL;
+        ListNode* next = newnode->next;
 
-        
-        bool res = true;
+        while(newnode != NULL){
+            newnode->next = prev;
+            prev = newnode;
+            newnode = next;
 
-        while(head != NULL){
-            if(head->val != temp->val){
+            if(newnode != NULL){
+                next = newnode->next;
+            }
+        }
+        // ListNode* val1 = prev;
+        while(prev != NULL){
+            if(head->val != prev->val){
                 return false;
             }
+
             head = head->next;
-            temp = temp->next;
+            prev = prev->next;
         }
 
-        return res;
-
-    
-
-        
-
-        
-
+        return true;
     }
-
 };
