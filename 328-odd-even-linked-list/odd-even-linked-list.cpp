@@ -14,36 +14,20 @@ public:
         if(head == NULL || head->next == NULL){
             return head;
         }
-        // ListNode* even = new ListNode();
-        ListNode* even = head->next;
-        // ListNode* odd = new ListNode();
+
         ListNode* odd = head;
-        ListNode* rooteven = even;
+        ListNode* oddroot = odd;
+        ListNode* even = head->next;
+        ListNode* evenroot = even;
 
-
-        // while(head != NULL){
-        //     if(head->val % 2 == 0){
-        //         ListNode* temp = new ListNode(head->val);
-        //         even->next = temp;
-        //         even = even->next;
-
-        //     }else{
-        //         ListNode* temp = new ListNode(head->val);
-        //         odd->next = temp;
-        //         odd = odd->next;
-        //     }
-
-        //     head = head->next;
-        // }
-
-        while(even != NULL && even->next != NULL){
+        while(even != NULL and even->next != NULL){
             odd->next = odd->next->next;
-            odd = odd->next;
             even->next = even->next->next;
             even = even->next;
+            odd = odd->next;
         }
-        odd->next = rooteven;
-        return head;
-
+       
+        odd->next = evenroot;
+        return oddroot;
     }
 };
