@@ -5,16 +5,27 @@ public:
             return false;
         }
 
-        long long num = x;
-        long long rev = 0;
+        stack<int>st;
+        int num = x;
 
         while(num > 0){
-            long long rem = num % 10;
-            rev = rev * 10 + rem;
+            st.push(num%10);
+            num = num/10;
+        }
+
+        num = x;
+
+        while(!st.empty()){
+            int digit = st.top();
+            st.pop();
+
+            if(digit != num%10){
+                return false;
+            }
 
             num = num/10;
         }
 
-        return rev == x;
+        return true;
     }
 };
