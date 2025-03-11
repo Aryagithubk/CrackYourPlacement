@@ -12,41 +12,44 @@
 class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        vector<vector<int>>ans;
-        if(root == NULL) return ans;
+        if(root == NULL){
+            return {};
+        }
 
+        vector<vector<int>>ans;
         queue<TreeNode*>q;
         q.push(root);
 
         while(!q.empty()){
-            //sabse pehle check krenge ki current level me kitne node h
-            int sz = q.size();// ye current level k number of nodes
-            //hr level k liye ek vector banayenge
+            int sz = q.size();
+
             vector<int>level;
-            for(int i = 0; i<sz;i++){
-                TreeNode* tp = q.front();
+
+            for(int i=0; i<sz; i++){
+                TreeNode* first = q.front();
                 q.pop();
-                
-                //store/print
-                cout<<tp->val<<' ';
-                level.push_back(tp->val);
-                //jaise jaise node bahar nikalenge waise waise uske childs ko push kre denge
-                if(tp->left != NULL) q.push(tp->left);
-                if(tp->right) q.push(tp->right);
+
+                level.push_back(first->val);
+
+                if(first->left != NULL){
+                    q.push(first->left);
+                }
+
+                if(first->right != NULL){
+                    q.push(first->right);
+                }
 
             }
-            cout<<endl;
+
             ans.push_back(level);
         }
 
-        int n = ans.size();//number of levels
-        for(int i = 0; i<n; i++){
+        for(int i=0; i<ans.size(); i++){
             if(i%2 == 1){
-                reverse(ans[i].begin(), ans[i].end());
+                reverse(ans[i].begin(),ans[i].end());
             }
         }
 
-        
         return ans;
     }
 };
