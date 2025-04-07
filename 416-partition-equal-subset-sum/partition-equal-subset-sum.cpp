@@ -1,42 +1,40 @@
 class Solution {
 public:
-    bool helper(vector<int>&nums,int targetSum,int ind,vector<vector<int>>&dp){
-        if(targetSum == 0){
+    bool helper(vector<int>&nums,int sum,int ind,vector<vector<int>>&dp){
+        if(sum == 0){
             return true;
         }
 
         if(ind == 0){
-            return (nums[0] == targetSum);
+            return nums[ind] == sum;
         }
 
-        if(dp[ind][targetSum] != -1){
-            return dp[ind][targetSum];
+        if(dp[ind][sum] != -1){
+            return dp[ind][sum];
         }
 
-        bool notTaken = helper(nums,targetSum,ind-1,dp);
+        //not taken
+        bool nottaken = helper(nums,sum,ind-1,dp);
 
+        //taken
         bool taken = false;
-        if(nums[ind] <= targetSum){
-            taken = helper(nums,targetSum-nums[ind],ind-1,dp);
+        if(nums[ind] <= sum){
+            taken = helper(nums,sum-nums[ind],ind-1,dp);
         }
 
-        return dp[ind][targetSum] = notTaken || taken;
+        return dp[ind][sum] = nottaken || taken;
     }
     bool canPartition(vector<int>& nums) {
-        int totalSum = 0;
         int n = nums.size();
+        int totalsum = accumulate(nums.begin(),nums.end(),0);
 
-        for(int i=0; i<n; i++){
-            totalSum += nums[i];
-        }
-
-        if(totalSum % 2 != 0){
+        if(totalsum% 2 != 0){
             return false;
         }else{
-            int k = totalSum/2;
-
-        vector<vector<int>>dp(n,vector<int>(k+1,-1));
-            return helper(nums,k,n-1,dp);
+            int sum = totalsum/2;
+        vector<vector<int>>dp(n,vector<int>(sum+1,-1));//memory leak se bachne ke liye, k+1 kyuki size 0 se k tk hai mtlb size huya k+1
+            return helper(nums,sum,n-1,dp);
         }
+
     }
 };
