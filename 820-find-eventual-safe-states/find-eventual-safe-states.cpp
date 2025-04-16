@@ -1,38 +1,54 @@
 class Solution {
 public:
-    int n;
-    vector<int> degreein;
-    vector< vector<int> > rGraph;
-    vector<int> ans;
-    
-    void init(vector<vector<int>>& G){
-        n = G.size();
-        degreein = vector<int>(n,0);
-        rGraph.resize(n, vector<int>(0) );
-        
-        for (int u=0; u<n; u++){
-            for (int v:G[u]){
-                rGraph[v].push_back(u);
-                degreein[u]++;
-            }
-        }
-    }
-    
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        init(graph);
-        queue<int> que;
-        for (int i=0; i<n; i++){
-            if (degreein[i]==0) que.push(i);
+       int n = graph.size();
+
+       vector<vector<int>>revadj(n);
+       vector<int>indegree(n,0); 
+
+       //reverse graph bnayenge
+       for(int i=0; i<n; i++){
+        // int u = graph[i][0], v = graph[i][1];
+        // revadj[v].push_back(u);
+        //hum ye nhi krenge kyuki ye tb hota h jb incoming outgoing edge fix ho but isme kitne v ho skte hai isiliye
+        for(int x : graph[i]){
+            revadj[x].push_back(i);
+        indegree[i]++;
         }
-        while (que.size()){
-            int u = que.front(); que.pop();
-            ans.push_back(u);
-            for (int v:rGraph[u]){
-                degreein[v]--;
-                if (degreein[v]==0) que.push(v);
+       }
+
+       //indegree count
+       queue<int>q;
+
+       for(int i=0; i<n; i++){
+        if(indegree[i] == 0){
+            q.push(i);
+        }
+       }
+
+       vector<int>ans;
+       vector<bool>safe(n,false);
+
+       while(!q.empty()){
+        int top = q.front();
+        q.pop();
+        safe[top] = true;
+
+        for(int x : revadj[top]){
+            indegree[x]--;
+
+            if(indegree[x] == 0){
+                q.push(x);
             }
         }
-        sort(ans.begin(),ans.end());
-        return ans;
+       }
+
+       for(int i=0; i<n; i++){
+        if(safe[i]){
+            ans.push_back(i);
+        }
+       }
+
+       return ans;
     }
 };
