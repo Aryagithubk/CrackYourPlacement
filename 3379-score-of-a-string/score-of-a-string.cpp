@@ -6,11 +6,12 @@ public:
         // cout<<val<<endl;
         int sum = 0;
         for(int i=0; i<s.length()-1; i++){
-            char str1 = s[i];
-            char str2 = s[i+1];
-            int x = str1, y = str2;
-            int diff = abs(x-y);
-            sum += diff;
+            // char str1 = s[i];
+            // char str2 = s[i+1];
+            // int x = str1, y = str2;
+            // int diff = abs(x-y);
+            // sum += diff;
+            sum += abs(s[i]-s[i+1]);
         }
 
         return sum;
