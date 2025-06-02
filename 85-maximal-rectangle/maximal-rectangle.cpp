@@ -1,75 +1,63 @@
 class Solution {
 public:
-
-    int helper(vector<int>&heights){
+    int helper(vector<int>&height){
+        int n = height.size();
         stack<int>st;
-        int maxArea = 0;
-        int n = heights.size();
+        vector<int>leftsmall;
+        vector<int>rightsmall;
 
         for(int i=0; i<n; i++){
-            while(!st.empty() and heights[i] < heights[st.top()]){
-                int h = heights[st.top()];
+            while(!st.empty() and height[st.top()] >= height[i]){
                 st.pop();
-                int width = st.empty() ? i - (-1) - 1 : i - st.top() - 1;
-                maxArea = max(maxArea, h*width);
             }
-
+            if(st.empty()){
+                leftsmall.push_back(0);
+            }else{
+                leftsmall.push_back(st.top()+1);
+            }
             st.push(i);
         }
-
+        //clearing stack for reuse
         while(!st.empty()){
-            int h = heights[st.top()];
             st.pop();
-            int width = st.empty() ? n - (-1) - 1 : n - st.top() - 1;
-            maxArea = max(maxArea,h*width);
         }
 
-        return maxArea;
+        for(int i=n-1; i>=0; i--){
+            while(!st.empty() and height[st.top()] >= height[i]){
+                st.pop();
+            }
+            if(st.empty()){
+                rightsmall.push_back(n-1);
+            }else{
+                rightsmall.push_back(st.top()-1);
+            }
+            st.push(i);
+        }
+        reverse(rightsmall.begin(),rightsmall.end());
+        int maxiarea = 0;
+        for(int i=0; i<n; i++){
+            maxiarea = max(maxiarea, height[i]*(rightsmall[i]-leftsmall[i]+1));
+        }
+        return maxiarea;
     }
-
-/* matrix = 
-[
-  [1, 0, 1, 0],
-  [1, 1, 1, 1],
-  [1, 0, 1, 1]
-]
-Let's see how heights array will be updated row by row:
-
-Initial heights: [0, 0, 0, 0]
-First row ([1, 0, 1, 0]):
-
-heights = [1, 0, 1, 0] // updated based on the first row.
-Second row ([1, 1, 1, 1]):
-
-heights = [2, 1, 2, 1] // for each column: 2 continuous 1's in column 0, 1 continuous 1 in column 1, etc.
-Third row ([1, 0, 1, 1]):
-
-heights = [3, 0, 3, 2] // continuous 3 1's in column 0, reset column 1, etc.
-So, the heights array is used to store the heights of columns for each row as we go row by row, not for each row's maximum height. It treats each row as the base of a histogram and calculates heights for columns across rows.
-
-That’s why we declare heights(cols, 0) because it needs to keep track of column heights for all rows in the matrix.*/
-
     int maximalRectangle(vector<vector<char>>& matrix) {
-        if(matrix.empty()) return 0;
+        int row = matrix.size();
+        int col = matrix[0].size();
+        vector<int>height(col,0);
+        int area = INT_MIN;
 
-        int rows = matrix.size();
-        int cols = matrix[0].size();
-
-        vector<int>heights(cols,0);
-        int maxi = 0;
-
-        for(int i=0; i<rows; i++){
-            for(int j=0; j<cols; j++){
+        for(int i=0; i<row; i++){
+            for(int j=0; j<col; j++){
                 if(matrix[i][j] == '1'){
-                    heights[j] += 1;
+                    height[j]++;
                 }else{
-                    heights[j] = 0;
+                    height[j] = 0;
                 }
             }
-        maxi = max(maxi,helper(heights));//Each row creates a new "histogram" based on the heights array. These histograms represent the heights of continuous 1's in the matrix up to that row. The key point is that the largest rectangle could form before reaching the final row.
+            int maxiarea = helper(height);
+            area = max(area,maxiarea);
         }
 
-        return maxi;
-
+        return area;
     }
 };
