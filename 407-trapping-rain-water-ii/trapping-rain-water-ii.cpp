@@ -35,11 +35,47 @@ public:
                     water += max(0, curr_height - heightMap[dx][dy]);
                     vis[dx][dy] = true;
                     pq.push({max(curr_height,heightMap[dx][dy]),dx,dy});
+                    /*
+                    \U0001f4e6 Socho layers mein (like an onion \U0001f9c5):
+Let’s take this example:
+
+csharp
+Copy
+Edit
+[5, 5, 5, 5]
+[5, 1, 2, 5]
+[5, 3, 4, 5]
+[5, 5, 5, 5]
+Outer boundary = 5 → we start from all 5s
+
+Center cell = 1
+
+Middle cell = 2, 3, 4
+
+\U0001f501 Step by step kya hoga?
+Hum sab boundary 5 cells ko min-heap mein daalte hain.
+
+Hum sabse chhoti wall (5) ko nikaalte hain.
+
+Uska neighbor (say 1) ko dekhte hain → 5 - 1 = 4 units paani bharega ✅
+
+Ab woh 1 wala cell abhi bhi ek wall ban gaya (uske aage ke cells ke liye)
+
+Lekin kya woh wall height 1 honi chahiye? ❌ No
+
+Kyunki actual boundary usko protect kar rahi thi → 5
+
+\U0001f9e0 Isliye:
+Agar hum 1 height heap mein daal denge,
+to agla cell (say 2) soch lega "Oh! Mere paas to 1 height ki wall hai",
+aur woh 2 > 1 hone ke kaaran paani nahin bharega — which is wrong. ❌
+*/
                 }
             }
         }
 
         return water;
+
 
 
 
