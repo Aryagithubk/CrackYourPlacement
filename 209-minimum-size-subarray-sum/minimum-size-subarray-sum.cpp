@@ -28,8 +28,8 @@ public:
         sum += nums[right];
 
         while(sum >= target){
-            mini = min(mini,right-left+1);
             sum -= nums[left];
+            mini = min(mini,right-left+1);
             left++;
         }
     }
