@@ -11,7 +11,14 @@ public:
         v.push_back({diag, area});
        }
 
-       sort(v.begin(), v.end());
+       // Sort by diagonal first, then by area
+        sort(v.begin(), v.end(), [](const pair<double,int>& a, const pair<double,int>& b){
+            if (a.first == b.first) 
+                return a.second < b.second;  // for equal diagonals, sort by area
+            return a.first < b.first;        // otherwise, sort by diagonal
+        });
+        cout<<v[n-1].first<<" "<<v[n-1].second<<endl;
+        if(n >=2)cout<<v[n-2].first<<" "<<v[n-2].second<<endl;
        return v[n-1].second;
         
     }
